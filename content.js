@@ -1,3 +1,26 @@
+/**
+ * Bors Armor: content.js
+ *
+ * When viewing the "Conversation" tab of a Pull Request on Github
+ * replace the Merge options with a button to add the Pull Request
+ * to the Bors queue.
+ *
+ * When clicked the button will:
+ * 1) Store the existing contents of the comment textarea, clearing it's value
+ * 2) Add the appropriate Bors command to the comment textarea
+ * 3) Comment on the PR, activating Bors
+ * 4) Restore the previous contents of the comment textarea
+ *
+ * TODO:
+ * 1) Replace the current implementation with one that replaces all buttons
+ *    with the Bors button.
+ * 2) Implement the on-click => comment functionality outlined above ^.
+ * 3) Disable the select-menu-list options with a message pointing users to Bors Armor
+ * 4) Toggle activation of Bors Armor with the Chrome extension
+ * 5) Activate Bors Armor by opting-in repositories or users/organizations
+ *    instead of using a global config for all of Github
+ * 6) Update icon to be a friendly knight
+ */
 // Select the Merge panel from the Github PR review page.
 const mergePanel = document.querySelector('div.merge-message')
 
