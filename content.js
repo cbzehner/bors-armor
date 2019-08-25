@@ -12,13 +12,14 @@
  * 4) Restore the previous contents of the comment textarea
  *
  * TODO:
- * 1) Implement the on-click => comment functionality outlined above ^.
- * 2) Toggle activation of Bors Armor with the Chrome extension
- * 3) Activate Bors Armor by opting-in repositories or users/organizations
+ * 1) Toggle activation of Bors Armor with the Chrome extension
+ * 2) Activate Bors Armor by opting-in repositories or users/organizations
  *    instead of using a global config for all of Github
- * 4) Update icon to be a friendly knight
- * 5) Wrap changes in try-catch and throw an alert if the Github UI has breaking changes
+ * 3) Update icon to be a friendly knight
+ * 4) Wrap changes in try-catch and throw an alert if the Github UI has breaking changes
  */
+const THREE_SECONDS = 3000
+
 const main = () => {
   // Select the Merge panel from the Github PR review page.
   const mergePanel = document.querySelector('div.merge-message')
@@ -74,11 +75,22 @@ const replaceMergeButtons = (mergePanel) => {
     const isDisabled = submitButton.disabled
     submitButton.disabled = false
 
-    submitButton.click()
+    const handleRestore = function() {
+      // Restore the existing textarea content ~and button disabled status~ once the submission completes
+      // Wait three seconds for Github to POST the comment and re-render, then re-run main()
+      //
+      // Gotcha: Cannot reuse existing references to HTML elements. Re-select them inside the set-timeout function.
+      setTimeout(function() {
+        document.querySelector('div.form-actions > div > button[type="submit"]').disabled = !currValue || isDisabled
+        
 
-    // Restore the existing textarea content and button disabled status
-    submitButton.disabled = isDisabled
-    commentTextArea.value = currValue
+        document.querySelector('textarea[name="comment[body]"').value = currValue
+
+        main()
+      }, THREE_SECONDS);
+    }
+    submitButton.addEventListener("click", handleRestore)
+    submitButton.click()
   }
 
   mergeButtonGroup.insertBefore(borsButton, mergeButtons[0])
