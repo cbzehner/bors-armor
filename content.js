@@ -18,13 +18,39 @@
  *    instead of using a global config for all of Github
  * 4) Update icon to be a friendly knight
  * 5) Wrap changes in try-catch and throw an alert if the Github UI has breaking changes
- * 6) Refactor into well named functions
  */
-// Select the Merge panel from the Github PR review page.
-const mergePanel = document.querySelector('div.merge-message')
+const main = () => {
+  // Select the Merge panel from the Github PR review page.
+  const mergePanel = document.querySelector('div.merge-message')
 
-// Do nothing unless currently on the "Conversations" tab of a Pull Request
-if (mergePanel) { // TODO: Exit early rather than nesting the conditional logic
+  // Do nothing unless currently on the "Conversations" tab of a Pull Request
+  if (!mergePanel) return null
+
+  replaceMergeStatus()
+  replaceMergeButtons(mergePanel)
+  addBorsToMergeOptions(mergePanel)
+  disableOtherMergeOptions()
+}
+
+const replaceMergeStatus = () => {
+  // Add a Bors-specific status heading
+  const branchActionItem = document.querySelector('div.branch-action-item')
+
+  const rebaseHeader = branchActionItem.querySelector('div.rebasing-body')
+  const borsHeader = rebaseHeader.cloneNode(true)
+
+  borsHeader.classList.replace('rebasing-body', 'bors-body')
+  borsHeader.style.display = 'block'
+  const statusHeading = borsHeader.querySelector('h3.status-heading')
+  statusHeading.innerText = 'This branch can be added to the Bors queue'
+  const statusDescription = borsHeader.querySelector('span.status-meta')
+  statusDescription.innerText = 'Bors will add this to the merge queue and handle release'
+
+  Array.from(branchActionItem.children).forEach(header => header.style.display = 'none')
+  branchActionItem.appendChild(borsHeader)
+}
+
+const replaceMergeButtons = (mergePanel) => {
   // Add Bors as the default merge button
   const mergeButtonGroup = mergePanel.querySelector('div.BtnGroup')
   const mergeButtons = mergePanel.querySelectorAll('button.BtnGroup-item')
@@ -47,8 +73,9 @@ if (mergePanel) { // TODO: Exit early rather than nesting the conditional logic
 
   mergeButtonGroup.insertBefore(borsButton, mergeButtons[0])
   Array.from(mergeButtons).map(button => button.style.display = 'none')
+}
 
-  // Add Bors as the selected option in the Dropdown menu
+const addBorsToMergeOptions = (mergePanel) => {
   const mergeOptionSelector = mergePanel.querySelector('div.BtnGroup > details')
   const optionMenu = mergeOptionSelector.querySelector('div.select-menu-list')
   const currOption = optionMenu.querySelector('[aria-checked="true"]')
@@ -60,8 +87,9 @@ if (mergePanel) { // TODO: Exit early rather than nesting the conditional logic
 
   optionMenu.insertBefore(borsOption, currOption)
   currOption.setAttribute('aria-checked', "false") // Uncheck the previously selected option
+}
 
-  // Disable other options in the Dropdown menu
+const disableOtherMergeOptions = () => {
   const borsOnlyWarning = document.createElement('span')
   borsOnlyWarning.innerText = 'Not enabled due to Bors Armor Chrome plugin.'
   borsOnlyWarning.classList.add('unavailable-merge-method')
@@ -77,20 +105,6 @@ if (mergePanel) { // TODO: Exit early rather than nesting the conditional logic
     textNodes.appendChild(borsOnlyWarning)
     textNodes.parentElement.disabled = "true"
   })
-
-  // Add a Bors-specific status heading
-  const branchActionItem = document.querySelector('div.branch-action-item')
-
-  const rebaseHeader = branchActionItem.querySelector('div.rebasing-body')
-  const borsHeader = rebaseHeader.cloneNode(true)
-
-  borsHeader.classList.replace('rebasing-body', 'bors-body')
-  borsHeader.style.display = 'block'
-  const statusHeading = borsHeader.querySelector('h3.status-heading')
-  statusHeading.innerText = 'This branch can be added to the Bors queue'
-  const statusDescription = borsHeader.querySelector('span.status-meta')
-  statusDescription.innerText = 'Bors will add this to the merge queue and handle release'
-
-  Array.from(branchActionItem.children).forEach(header => header.style.display = 'none')
-  branchActionItem.appendChild(borsHeader)
 }
+
+main()
