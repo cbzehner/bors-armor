@@ -12,14 +12,13 @@
  * 4) Restore the previous contents of the comment textarea
  *
  * TODO:
- * 1) Replace the current implementation with one that replaces all buttons
- *    with the Bors button.
- * 2) Implement the on-click => comment functionality outlined above ^.
- * 3) Disable the select-menu-list options with a message pointing users to Bors Armor
- * 4) Toggle activation of Bors Armor with the Chrome extension
- * 5) Activate Bors Armor by opting-in repositories or users/organizations
+ * 1) Implement the on-click => comment functionality outlined above ^.
+ * 2) Toggle activation of Bors Armor with the Chrome extension
+ * 3) Activate Bors Armor by opting-in repositories or users/organizations
  *    instead of using a global config for all of Github
- * 6) Update icon to be a friendly knight
+ * 4) Update icon to be a friendly knight
+ * 5) Wrap changes in try-catch and throw an alert if the Github UI has breaking changes
+ * 6) Refactor into well named functions
  */
 // Select the Merge panel from the Github PR review page.
 const mergePanel = document.querySelector('div.merge-message')
@@ -28,22 +27,20 @@ const mergePanel = document.querySelector('div.merge-message')
 if (mergePanel) { // TODO: Exit early rather than nesting the conditional logic
   // Add Bors as the default merge button
   const mergeButtonGroup = mergePanel.querySelector('div.BtnGroup')
-  const mergeButtons = mergePanel.querySelectorAll('button')
+  const mergeButtons = mergePanel.querySelectorAll('button.BtnGroup-item')
   const borsButton = mergeButtons[0].cloneNode()
 
   borsButton.innerText = 'Add to Bors queue'
-  borsButton.classList.remove('btn-group-merge')
-  borsButton.classList.remove('btn-group-rebase')
-  borsButton.classList.remove('btn-group-squash')
   borsButton.classList.add('btn-group-bors')
+  borsButton.classList.remove('btn-group-merge','btn-group-rebase', 'btn-group-squash')
+  delete borsButton.dataset.detailsContainer
   borsButton.onclick = function(event) {
     console.log('event', event)
-    event.stopPropogation;
-    event.preventDefault;
     alert('Hi! Thanks for flying with Bors!')
   }
 
   mergeButtonGroup.insertBefore(borsButton, mergeButtons[0])
+  Array.from(mergeButtons).map(button => button.style.display = 'none')
 
   // Add Bors as the selected option in the Dropdown menu
   const mergeOptionSelector = mergePanel.querySelector('div.BtnGroup > details')
@@ -56,9 +53,38 @@ if (mergePanel) { // TODO: Exit early rather than nesting the conditional logic
   borsOption.value = 'bors'
 
   optionMenu.insertBefore(borsOption, currOption)
-  // Uncheck the previously selected option
-  currOption.setAttribute('aria-checked', "false")
+  currOption.setAttribute('aria-checked', "false") // Uncheck the previously selected option
 
-  // TODO: Replace "This branch has no conflicts with the base branch" with a Bors-specific message
-  // const branchActionItem = document.querySelector('div.branch-action-item')
+  // Disable other options in the Dropdown menu
+  const borsOnlyWarning = document.createElement('span')
+  borsOnlyWarning.innerText = 'Not enabled due to Bors Armor Chrome plugin.'
+  borsOnlyWarning.classList.add('unavailable-merge-method')
+
+  // TODO: Refactor to go from the Buttons to children rather than traversing back to parents :/
+  const menuTextNodes = document.querySelectorAll('details-menu.select-menu-merge-method > div.select-menu-list > button.select-menu-item > div.select-menu-item-text')
+  Array.from(menuTextNodes).forEach(textNodes => {
+    if (textNodes.parentElement.value === 'bors') {
+      return
+    }
+
+    // Does not overwrite repository-level warnings. This will only disable methods already allowed by the repo.
+    textNodes.appendChild(borsOnlyWarning)
+    textNodes.parentElement.disabled = "true"
+  })
+
+  // Add a Bors-specific status heading
+  const branchActionItem = document.querySelector('div.branch-action-item')
+
+  const rebaseHeader = branchActionItem.querySelector('div.rebasing-body')
+  const borsHeader = rebaseHeader.cloneNode(true)
+
+  borsHeader.classList.replace('rebasing-body', 'bors-body')
+  borsHeader.style.display = 'block'
+  const statusHeading = borsHeader.querySelector('h3.status-heading')
+  statusHeading.innerText = 'This branch can be added to the Bors queue'
+  const statusDescription = borsHeader.querySelector('span.status-meta')
+  statusDescription.innerText = 'Bors will add this to the merge queue and handle release'
+
+  Array.from(branchActionItem.children).forEach(header => header.style.display = 'none')
+  branchActionItem.appendChild(borsHeader)
 }
