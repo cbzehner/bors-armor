@@ -60,14 +60,22 @@ const replaceMergeButtons = (mergePanel) => {
   borsButton.classList.add('btn-group-bors')
   borsButton.classList.remove('btn-group-merge','btn-group-rebase', 'btn-group-squash')
   delete borsButton.dataset.detailsContainer
+
   borsButton.onclick = function(event) {
     const commentTextArea = document.querySelector('textarea[name="comment[body]"')
     const submitButton = document.querySelector('div.form-actions > div > button[type="submit"]')
 
     currValue = commentTextArea.value
     commentTextArea.value = 'bors r+'
+
+    // If the button is disabled, temporarily enable it
+    const isDisabled = submitButton.disabled
+    submitButton.disabled = false
+
     submitButton.click()
 
+    // Restore the existing textarea content and button disabled status
+    submitButton.disabled = isDisabled
     commentTextArea.value = currValue
   }
 
