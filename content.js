@@ -35,8 +35,14 @@ if (mergePanel) { // TODO: Exit early rather than nesting the conditional logic
   borsButton.classList.remove('btn-group-merge','btn-group-rebase', 'btn-group-squash')
   delete borsButton.dataset.detailsContainer
   borsButton.onclick = function(event) {
-    console.log('event', event)
-    alert('Hi! Thanks for flying with Bors!')
+    const commentTextArea = document.querySelector('textarea[name="comment[body]"')
+    const submitButton = document.querySelector('div.form-actions > div > button[type="submit"]')
+
+    currValue = commentTextArea.value
+    commentTextArea.value = 'bors r+'
+    submitButton.click()
+
+    commentTextArea.value = currValue
   }
 
   mergeButtonGroup.insertBefore(borsButton, mergeButtons[0])
