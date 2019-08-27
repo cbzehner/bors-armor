@@ -33,10 +33,10 @@ const main = () => {
 }
 
 const replaceMergeStatus = () => {
-  // Add a Bors-specific status heading
-  const branchActionItem = document.querySelector('div.branch-action-item')
+  const branchActionItems = document.querySelectorAll('div.branch-action-item')
+  const mergeStatusActionItem = branchActionItems[branchActionItems.length - 1]
 
-  const rebaseHeader = branchActionItem.querySelector('div.rebasing-body')
+  const rebaseHeader = mergeStatusActionItem.querySelector('div.rebasing-body')
   const borsHeader = rebaseHeader.cloneNode(true)
 
   borsHeader.classList.replace('rebasing-body', 'bors-body')
@@ -46,12 +46,11 @@ const replaceMergeStatus = () => {
   const statusDescription = borsHeader.querySelector('span.status-meta')
   statusDescription.innerText = 'Bors will add this to the merge queue and handle release'
 
-  Array.from(branchActionItem.children).forEach(header => header.style.display = 'none')
-  branchActionItem.appendChild(borsHeader)
+  Array.from(mergeStatusActionItem.children).forEach(header => header.style.display = 'none')
+  mergeStatusActionItem.appendChild(borsHeader)
 }
 
 const replaceMergeButtons = (mergePanel) => {
-  // Add Bors as the default merge button
   const mergeButtonGroup = mergePanel.querySelector('div.BtnGroup')
   const mergeButtons = mergePanel.querySelectorAll('button.BtnGroup-item')
   const borsButton = mergeButtons[0].cloneNode()
