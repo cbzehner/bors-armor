@@ -37,6 +37,9 @@ const replaceMergeStatus = () => {
   const mergeStatusActionItem = branchActionItems[branchActionItems.length - 1]
 
   const rebaseHeader = mergeStatusActionItem.querySelector('div.rebasing-body')
+  if (!rebaseHeader) {
+    return
+  }
   const borsHeader = rebaseHeader.cloneNode(true)
 
   borsHeader.classList.replace('rebasing-body', 'bors-body')
@@ -84,6 +87,11 @@ const replaceMergeButtons = (mergePanel) => {
 
 const addBorsToMergeOptions = (mergePanel) => {
   const mergeOptionSelector = mergePanel.querySelector('div.BtnGroup > details')
+
+  if (!mergeOptionSelector) {
+    return
+  }
+
   const optionMenu = mergeOptionSelector.querySelector('div.select-menu-list')
   const currOption = optionMenu.querySelector('[aria-checked="true"]')
   const borsOption = currOption.cloneNode(true)
