@@ -8,10 +8,9 @@
              "128": "icons/armor-128px.png" },
   "content_scripts": [
     {
-      "matches": [
-        "https://github.com/*"
-      ],
-      "js": ["content.js"]
+      "matches": ["https://github.com/*"],
+      "js": ["content.js"],
+      "run_at": "document_end"
     }
   ]
 }
