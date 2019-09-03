@@ -50,7 +50,7 @@ const replaceMergeStatus = () => {
   const statusDescription = borsHeader.querySelector('span.status-meta')
   statusDescription.innerText = 'Bors will add this to the merge queue and handle release'
 
-  Array.from(mergeStatusActionItem.children).forEach(header => header.style.display = 'none')
+  Array.from(mergeStatusActionItem.children).forEach(hideElem)
   mergeStatusActionItem.appendChild(borsHeader)
 }
 
@@ -75,10 +75,9 @@ const replaceMergeButtons = (mergePanel) => {
     const isDisabled = submitButton.disabled
     submitButton.disabled = false
 
+    // Restore the existing textarea content ~and button disabled status~ once the submission completes
     const handleRestore = function() {
-      // Restore the existing textarea content ~and button disabled status~ once the submission completes
-      // Wait three seconds for Github to POST the comment and re-render, then re-run main()
-      //
+
       // Gotcha: Cannot reuse existing references to HTML elements. Re-select them inside the set-timeout function.
       setTimeout(function() {
         document.querySelector('div.form-actions > div > button[type="submit"]').disabled = !currValue || isDisabled
@@ -87,14 +86,19 @@ const replaceMergeButtons = (mergePanel) => {
         document.querySelector('textarea[name="comment[body]"').value = currValue
 
         main()
-      }, THREE_SECONDS);
+      }, THREE_SECONDS); // Wait three seconds for Github to POST the comment and re-render, then re-run main()
+
     }
+
     submitButton.addEventListener("click", handleRestore)
     submitButton.click()
+
+    const manualMergeInstructions = document.querySelector('div.merge-branch-manually')
+    hideElem(manualMergeInstructions)
   }
 
   mergeButtonGroup.insertBefore(borsButton, mergeButtons[0])
-  Array.from(mergeButtons).map(button => button.style.display = 'none')
+  Array.from(mergeButtons).map(hideElem)
 }
 
 const addBorsToMergeOptions = (mergePanel) => {
@@ -133,5 +137,7 @@ const disableOtherMergeOptions = () => {
     textNodes.parentElement.disabled = "true"
   })
 }
+
+const hideElem = (htmlElem) => htmlElem.style.display = 'none'
 
 main()
