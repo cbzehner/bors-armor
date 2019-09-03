@@ -1,0 +1,30 @@
+body {
+  margin: 0;
+}
+
+h1 {
+  min-width: 12rem;
+  margin: 0;
+  padding: 0.5rem;
+
+  color: #ffffff;
+  background: #3477db;
+
+  font-size: 1rem;
+  font-weight: 600;
+}
+
+div.toggle-bors {
+  padding: 0.5rem;
+
+  white-space: nowrap;
+  line-height: 1.5rem;
+
+  cursor: pointer;
+}
+
+div.toggle-bors:hover {
+  opacity: 0.8;
+
+  text-decoration: underline;
+}

@@ -1,12 +1,15 @@
 {
-  "manifest_version": 2,
   "name": "Bors Armor",
   "description": "Seamlessly integrate Bors into the Github review UI",
   "version": "0.1",
-  "icons": { "16": "icons/armor-16px.png",
-             "32": "icons/armor-32px.png",
-             "48": "icons/armor-48px.png",
-             "128": "icons/armor-128px.png" },
+  "manifest_version": 2,
+  "icons": {
+    "16": "icons/armor-16px.png",
+    "32": "icons/armor-32px.png",
+    "48": "icons/armor-48px.png",
+    "128": "icons/armor-128px.png"
+  },
+  "browser_action": { "default_popup": "popup.html" },
   "content_scripts": [
     {
       "matches": ["https://github.com/*"],
