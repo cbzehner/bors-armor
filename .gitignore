@@ -39,6 +39,10 @@ jspm_packages/
 # TypeScript v1 declaration files
 typings/
 
+# Webpack/Typescript build output
+build/
+dist/
+
 # Optional npm cache directory
 .npm
 

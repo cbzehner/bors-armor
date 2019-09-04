@@ -1,0 +1,23 @@
+{
+  "name": "bors-armor",
+  "version": "0.0.1",
+  "description": "Seamlessly integrate Bors into the Github review UI",
+  "author": "Chris Zehner <cbzehner@gmail.com>",
+  "license": "GPL3",
+  "main": "index.ts",
+  "private": true,
+  "repository": "git@github.com:cbzehner/bors-armor.git",
+  "scripts": {
+    "watch": "webpack --config webpack/webpack.dev.js --watch",
+    "build": "webpack --config webpack/webpack.prod.js"
+  },
+  "devDependencies": {
+    "@types/chrome": "^0.0.88",
+    "copy-webpack-plugin": "^5.0.4",
+    "ts-loader": "^6.0.4",
+    "typescript": "^3.6.2",
+    "webpack": "^4.39.3",
+    "webpack-cli": "^3.3.7",
+    "webpack-merge": "^4.2.2"
+  }
+}
