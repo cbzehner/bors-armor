@@ -7,7 +7,7 @@ Replace the existing merge options on a Github Pull Request with a button that c
 
 # Distribution
 
-To package Bors Armor for distribution run `zip -r bors-armor.zip bors-armor/ --exclude '*.git*'` and upload the file to the Chorme Web Store.
+To package Bors Armor for distribution run `yarn zip` and upload the `bors-armor.zip` output file to the Chorme Web Store.
 
 # Acknowledgements
 Current icon [Armor by lastspark from the Noun Project](https://thenounproject.com/term/armor/1755705)

@@ -62,3 +62,6 @@ typings/
 
 # Webpack build output
 build/
+
+# Packaged zip file for Chrome Web Store
+bors-armor.zip

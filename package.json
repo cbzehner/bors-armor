@@ -10,6 +10,7 @@
     "build": "yarn build-dev",
     "build-dev": "yarn webpack --config webpack/webpack.dev.js",
     "build-prod": "yarn webpack --config webpack/webpack.prod.js",
+    "zip": "yarn build-prod && zip -r bors-armor.zip build/",
     "watch": "yarn build-dev --watch"
   },
   "devDependencies": {
