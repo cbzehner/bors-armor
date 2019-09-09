@@ -13,7 +13,7 @@ const options = {
   },
   output: {
     path: `${rootPath}/build`,
-    filename: "[name].js"
+    filename: "[name].js",
   },
   module: {
     rules: [
@@ -24,35 +24,41 @@ const options = {
       {
         test: /\.html$/,
         use: ["html-loader"],
-      }
-    ]
+      },
+    ],
   },
   plugins: [
     new CleanWebpackPlugin(), // Clean `build/` between webpack runs
-    new HtmlWebpackPlugin({   // Load HTML files
+    new HtmlWebpackPlugin({
+      // Load HTML files
       template: `${rootPath}/src/html/popup.html`,
       filename: "popup.html",
-      chunks: ["popup"]
+      chunks: ["popup"],
     }),
-    new CopyWebpackPlugin(    // Copy static assets into `build/`
-      [
-        { 
-          from: 'manifest.json', 
-          // Use the package.json to populate the manifest.json
-          transform: function (content, _path) {
-            return Buffer.from(JSON.stringify({
+    new CopyWebpackPlugin([
+      // Copy static assets into `build/`
+      {
+        from: "manifest.json",
+        // Use the package.json to populate the manifest.json
+        transform: function(content, _path) {
+          return Buffer.from(
+            JSON.stringify({
               description: process.env.npm_package_description,
               version: process.env.npm_package_version,
-              ...JSON.parse(content.toString())
-            }))
-          },
-          context: `${rootPath}/src/`
+              ...JSON.parse(content.toString()),
+            })
+          )
         },
-        { from: 'css/*', to: `${rootPath}/build`, context: `${rootPath}/src/` },
-        { from: 'icons/*.png', to: `${rootPath}/build`, context: `${rootPath}/src/` }
-      ],
-    ),
-  ]
+        context: `${rootPath}/src/`,
+      },
+      { from: "css/*", to: `${rootPath}/build`, context: `${rootPath}/src/` },
+      {
+        from: "icons/*.png",
+        to: `${rootPath}/build`,
+        context: `${rootPath}/src/`,
+      },
+    ]),
+  ],
 }
 
 module.exports = options
