@@ -64,8 +64,8 @@ const replaceMergeButtons = (mergePanel) => {
   borsButton.classList.remove('btn-group-merge','btn-group-rebase', 'btn-group-squash')
   delete borsButton.dataset.detailsContainer
 
-  borsButton.onclick = function(event) {
-    const commentTextArea = document.querySelector('textarea[name="comment[body]"')
+  borsButton.onclick = function(_event) {
+    const commentTextArea = document.getElementById('new_comment_field')
     const submitButton = document.querySelector('div.form-actions > div > button[type="submit"]')
 
     currValue = commentTextArea.value
@@ -83,7 +83,7 @@ const replaceMergeButtons = (mergePanel) => {
         document.querySelector('div.form-actions > div > button[type="submit"]').disabled = !currValue || isDisabled
         
 
-        document.querySelector('textarea[name="comment[body]"').value = currValue
+        document.getElementById('new_comment_field').value = currValue
 
         main()
       }, THREE_SECONDS); // Wait three seconds for Github to POST the comment and re-render, then re-run main()
