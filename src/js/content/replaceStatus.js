@@ -1,4 +1,5 @@
 import { selectLastMergeStatusActionItem } from "./selectors"
+import { hideElem } from "./utils"
 
 const replaceMergeStatus = () => {
   const mergeStatusActionItem = selectLastMergeStatusActionItem()

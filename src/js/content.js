@@ -38,4 +38,6 @@ const main = () => {
   disableOtherMergeOptions()
 }
 
-main()
+export default main
+
+main() // Run Bors Armor on page load
