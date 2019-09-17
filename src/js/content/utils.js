@@ -1,1 +1,1 @@
-const hideElem = htmlElem => (htmlElem.style.display = "none")
+export const hideElem = htmlElem => (htmlElem.style.display = "none")
