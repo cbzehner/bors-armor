@@ -15,3 +15,20 @@ export const selectSubmitButton = () =>
 
 export const selectCommentBox = () =>
   document.getElementById("new_comment_field")
+
+export const selectStatusCheckIndicators = () =>
+  document.querySelectorAll("div.merge-status-icon > svg.octicon")
+
+export const selectCompletenessChecks = () =>
+  document.querySelectorAll("div.completeness-indicator > svg.octicon")
+
+export const selectButtonGroup = panel => panel.querySelector("div.BtnGroup")
+
+export const selectMergeButtons = panel =>
+  panel.querySelectorAll("button.BtnGroup-item")
+
+export const selectDropdownMenuButton = panel =>
+  panel.querySelector("button.BtnGroup-item.select-menu-button")
+
+export const selectManualMergeInstructions = () =>
+  document.querySelector("div.merge-branch-manually")
