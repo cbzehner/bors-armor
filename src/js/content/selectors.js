@@ -32,3 +32,18 @@ export const selectDropdownMenuButton = panel =>
 
 export const selectManualMergeInstructions = () =>
   document.querySelector("div.merge-branch-manually")
+
+export const selectEnableRepo = () =>
+  document.querySelector("div.toggle-bors.repo.enable")
+
+export const selectDisableRepo = () =>
+  document.querySelector("div.toggle-bors.repo.disable")
+
+export const selectEnableOrg = () =>
+  document.querySelector("div.toggle-bors.org")
+
+export const selectTitleActive = () =>
+  document.querySelector("h1 > span.active")
+
+export const selectTitleInactive = () =>
+  document.querySelector("h1 > span.inactive")

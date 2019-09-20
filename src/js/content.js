@@ -13,10 +13,7 @@
  *
  * TODO:
  * 1) Toggle activation of Bors Armor with the Chrome extension
- * 2) Activate Bors Armor by opting-in repositories or users/organizations
- *    instead of using a global config for all of Github
- * 3) Update icon to be a friendly knight
- * 4) Wrap changes in try-catch and throw an alert if the Github UI has breaking changes
+ * 2) Update icon to be a friendly knight
  */
 
 import replaceMergeStatus from "./content/replaceStatus"
@@ -24,6 +21,7 @@ import replaceMergeButtons from "./content/replaceButton"
 import addBorsToMergeOptions from "./content/updateOptions"
 import disableOtherMergeOptions from "./content/disableOptions"
 import { selectMergePanel } from "./content/selectors"
+import { repoUrlFormat } from "./utils"
 
 const main = () => {
   // Select the Merge panel from the Github PR review page.
@@ -40,4 +38,11 @@ const main = () => {
 
 export default main
 
-main() // Run Bors Armor on page load
+chrome.runtime.sendMessage(
+  { message: "shouldProtect", url: repoUrlFormat(window.location.href) },
+  response => {
+    if (response.shouldProtect) {
+      main() // Run Bors Armor on page load
+    }
+  }
+)

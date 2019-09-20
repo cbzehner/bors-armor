@@ -10,6 +10,7 @@ const options = {
   entry: {
     popup: `${rootPath}/src/js/popup.js`,
     content: `${rootPath}/src/js/content.js`,
+    background: `${rootPath}/src/js/background.js`,
   },
   output: {
     path: `${rootPath}/build`,
@@ -35,6 +36,7 @@ const options = {
       filename: "popup.html",
       chunks: ["popup"],
     }),
+    // TODO: Fix --watch mode issue with suggestion from https://github.com/webpack-contrib/copy-webpack-plugin/issues/252#issuecomment-427322809
     new CopyWebpackPlugin([
       // Copy static assets into `build/`
       {

@@ -1,14 +1,22 @@
-<!doctype html>
+<!DOCTYPE html>
 <html>
   <head>
     <link type="text/css" href="../css/popup.css" rel="stylesheet" />
   </head>
   <body>
-    <h1>Bors Armor: Active</h1>
+    <h1>
+      Bors Armor
+      <span class="active">(Active)</span>
+      <span class="inactive">(Inactive)</span>
+    </h1>
     <div class="button-group">
-      <div class="toggle-bors repo">Enable Bors Armor for this Repository</div>
-      <div class="toggle-bors org">Enable Bors Armor for this Organization</div>
-      <div class="toggle-bors disable">Disable Bors Armor</div>
+      <div class="toggle-bors repo enable">
+        Enable Bors Armor for this Repository
+      </div>
+      <!-- <div class="toggle-bors org">Enable Bors Armor for this Organization</div> -->
+      <div class="toggle-bors repo disable">
+        Disable Bors Armor for this Repository
+      </div>
     </div>
   </body>
 </html>
