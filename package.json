@@ -1,6 +1,6 @@
 {
   "name": "bors-armor",
-  "version": "0.0.2",
+  "version": "0.2",
   "description": "Seamlessly integrate Bors into the Github review UI",
   "repository": "git@github.com:cbzehner/bors-armor.git",
   "author": "Chris Zehner <cbzehner@gmail.com>",
