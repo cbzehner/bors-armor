@@ -24,8 +24,10 @@ export const createBorsButton = mergeButton => {
   delete borsButton.dataset.detailsContainer
   borsButton.onclick = handleBorsClick
 
+  // TODO: Figure out what the correct logic for disabling the button
+  //       in response to status checks may be.
   // Set the disabled status of the Bors button
-  const isBorsDisabled = hasFailedStatusChecks()
+  const isBorsDisabled = false // hasFailedStatusChecks()
   borsButton.disabled = isBorsDisabled
 
   if (!isBorsDisabled && !missingMergeRequirement()) {
